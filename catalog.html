@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale: 1.0" />
+    <title>Kyiv Event</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        /* Загальні стилі */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #8524b2;
+            color: #333;
+        }
+
+        /* Стилі для навігації */
+        nav {
+            background-color: #ffc020;
+            color: white;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin: 0 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #logo {
+            height: 50px;
+        }
+
+        /* Стилі для плаваючої кнопки */
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        /* Стилі для модального вікна */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-content h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal input {
+            margin: 5px 0;
+            padding: 10px;
+            width: 90%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .modal button {
+            background-color: #cf11ff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .modal button:hover {
+            background-color: #cf11ff;
+        }
+
+        .edit-btn {
+            display: none;
+            margin-top: 10px;
+            background-color: #cf11ff;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+
+        /* Стилі для блоку фільтрів */
+        #filter-form {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #fff;
+            border: 2px solid #ffc020;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 1200px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap; /* Додано для адаптивності */
+        }
+
+        #filter-form label {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            width: auto;
+        }
+
+        #filter-form input,
+        #filter-form select {
+            width: auto;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border: 2px solid #ffc020;
+            border-radius: 12px;
+            background-color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        #filter-submit-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #ffc020;
+            color: #333;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 20px;
+        }
+
+        #filter-form input:focus,
+        #filter-form select:focus {
+            border-color: #FFA500;
+            box-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
+        }
+
+        #filter-submit-button:hover {
+            background-color: #FFC300;
+            transform: scale(1.02);
+        }
+
+        #filter-submit-button:active {
+            background-color: #FFB300;
+        }
+
+        /* Стилі для секції з контентом */
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            align-items: center;
+        }
+
+        /* Контейнер для фільтрів та постів */
+        #event-cards {
+            width: 100%;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .blog-post {
+            border: 1px solid #ddd;
+            border-radius: 40px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-post img {
+            width: 100%;
+            height: 200px; /* Задайте фіксовану висоту або використовуйте auto для адаптивної висоти */
+            object-fit: cover; /* Обрізає або змінює розмір зображення для заповнення контейнера */
+        }
+
+        .blog-post-content {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .blog-post-title {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .blog-post-excerpt {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .blog-post-date,
+        .blog-post-price {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .blog-post-link {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #d900ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: background-color 0.3s;
+        }
+
+        .blog-post-link:hover {
+            background-color: #d900ff;
+        }
+
+        /* Стилі для футера */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Адаптивність для мобільних пристроїв */
+        @media (max-width: 768px) {
+            #filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #filter-form input,
+            #filter-form select {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            #filter-form label {
+                text-align: left;
+            }
+
+            #filter-submit-button {
+                margin-top: 10px;
+            }
+
+            .page-container {
+                padding: 10px;
+            }
+
+            #event-cards {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Навігація -->
+    <nav>
+        <img src="images/logo.png" alt="Logo" id="logo" />
+        <ul>
+            <li><a href="index.html" id="home-header">Головна</a></li>
+            <li><a href="catalog.html" id="catalog-header">Каталог</a></li>
+        </ul>
+        <div>
+            <button onclick="switchLanguage('uk')">UA</button>
+            <button onclick="switchLanguage('en')">EN</button>
+        </div>
+    </nav>
+
+    <!-- Фільтри -->
+    <div class="page-container">
+        <aside id="filter-form">
+            <label for="event-date" id="filter-date-label">Дата:</label>
+            <input type="date" id="event-date" name="event-date" />
+
+            <label for="event-price" id="filter-price-label">Ціна:</label>
+            <input type="number" id="event-price" name="event-price" />
+
+            <label for="event-type" id="filter-type-label">Тип події:</label>
+            <select id="event-type" name="event-type">
+                <option value="" id="alltypes">Всі події</option>
+                <option value="концерт" id="concand">Концерти та вистави</option>
+                <option value="виставка" id="vystawka">Виставка</option>
+                <option value="фестиваль" id="fest">Фестиваль</option>
+                <option value="майстер-клас" id="master">Майстер-клас</option>
+            </select>
+
+            <button type="button" id="filter-submit-button" onclick="filterEvents()">Фільтрувати</button>
+        </aside>
+
+        <!-- Основний контент -->
+        <main id="event-cards">
+            <section class="event-list" id="event-list">
+                <div class="blog-post" data-id="event1" data-type="концерт" data-date="2025-05-10" data-price="250">
+                    <img src="images/pexels-teddy-2263436.jpg" alt="Музичний концерт" />
+                    <div class="blog-post-content">
+                        <h3 class="blog-post-title" id="event1-title">Концерт 2025 року</h3>
+                        <p class="blog-post-excerpt" id="event1-excerpt">Присутні на концерті зможуть насолоджуватися найкращими релізами 2025 року.</p>
+                        <p class="blog-post-date" id="event1-date">Дата: 10 травня 2025</p>
+                        <p class="blog-post-price" id="event1-price">Ціна: 250 грн</p>
+                        <button class="edit-btn" onclick="openEdit(this)">✏️ Редагувати</button>
+                        <a href="event1.html" class="blog-post-link">Деталі події</a>
+                    </div>
+                </div>
+
+                <div class="blog-post" data-id="event2" data-type="концерт" data-date="2025-05-15" data-price="300">
+                    <img src="images/pexels-anya-juarez-tenorio-227888521-31767456.jpg" alt="Театральна вистава" />
+                    <div class="blog-post-content">
+                        <h3 class="blog-post-title" id="event2-title">Театральна вистава "Коли засинає місто"</h3>
+                        <p class="blog-post-excerpt" id="event2-excerpt">Лірична драма про тих, хто шукає себе серед тихих сплячих вулиць.</p>
+                        <p class="blog-post-date" id="event2-date">Дата: 15 травня 2025</p>
+                        <p class="blog-post-price" id="event2-price">Ціна: 300 грн</p>
+                        <button class="edit-btn" onclick="openEdit(this)">✏️ Редагувати</button>
+                        <a href="event2.html" class="blog-post-link">Деталі події</a>
+                    </div>
+                </div>
+
+                <div class="blog-post" data-id="event3" data-type="майстер-клас" data-date="2025-05-16" data-price="400">
+                    <img src="images/pexels-thiago-1265247-2410573.jpg" alt="Йога на свіжому повітрі" />
+                    <div class="blog-post-content">
+                        <h3 class="blog-post-title" id="event3-title">Заняття йогою на відкритому повітрі</h3>
+                        <p class="blog-post-excerpt" id="event3-excerpt">Йога серед природи для покращення самопочуття.</p>
+                        <p class="blog-post-date" id="event3-date">Дата: 16 травня 2025</p>
+                        <p class="blog-post-price" id="event3-price">Ціна: 400 грн</p>
+                        <button class="edit-btn" onclick="openEdit(this)">✏️ Редагувати</button>
+                        <a href="event3.html" class="blog-post-link">Деталі події</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+
+    <!-- Плаваюча кнопка входу -->
+    <button class="floating-btn" onclick="document.getElementById('loginModal').style.display='block'">🔒</button>
+
+    <!-- Модальне вікно входу -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h3 id="login-modal-title">Вхід</h3>
+            <input type="text" id="username" placeholder="Логін" />
+            <input type="password" id="password" placeholder="Пароль" />
+            <button id="login-button" onclick="login()">Увійти</button>
+        </div>
+    </div>
+
+    <!-- Модальне вікно редагування -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3 id="edit-modal-title">Редагувати подію</h3>
+            <input id="editTitle" placeholder="Назва" />
+            <input id="editDescription" placeholder="Опис" />
+            <input id="editDate" placeholder="Дата" />
+            <input id="editPrice" placeholder="Ціна" />
+            <button id="edit-button" onclick="saveEdit()">Зберегти</button>
+        </div>
+    </div>
+
+    <!-- Підвал -->
+    <footer>
+        <p id="footer-text">Поринай у веселощі | Kyiv Event - Dive into Fun</p>
+        <p id="footer-contacts">Контакти: +380 12 345 67 89 | email@example.com</p>
+        <p id="footer-developer">Розробник: Андрущенко Софія ФІТ 2-11</p>
+    </footer>
+</body>
+
+    <script>
+        function login() {
+            const u = document.getElementById("username").value;
+            const p = document.getElementById("password").value;
+    
+            if (u === "admin" && p === "1234") {
+                alert("Успішний вхід!");
+                document.getElementById("loginModal").style.display = "none";
+                // Показуємо кнопки редагування після успішного входу
+                document.querySelectorAll('.edit-btn').forEach(btn => btn.style.display = 'inline-block');
+            } else {
+                alert("Невірні дані");
+            }
+        }
+    
+        let currentEditing = null;
+    
+        function openEdit(button) {
+            const post = button.closest('.blog-post');
+            currentEditing = post;
+            document.getElementById("editTitle").value = post.querySelector('.blog-post-title').textContent;
+            document.getElementById("editDescription").value = post.querySelector('.blog-post-excerpt').textContent;
+            document.getElementById("editDate").value = post.querySelector('.blog-post-date').textContent.replace('Дата: ', '');
+            document.getElementById("editPrice").value = post.querySelector('.blog-post-price').textContent.replace('Ціна: ', '');
+            document.getElementById("editModal").style.display = "block";
+        }
+    
+        function saveEdit() {
+            const title = document.getElementById("editTitle").value;
+            const desc = document.getElementById("editDescription").value;
+            const date = document.getElementById("editDate").value;
+            const price = document.getElementById("editPrice").value;
+
+            currentEditing.querySelector('.blog-post-title').textContent = title;
+            currentEditing.querySelector('.blog-post-excerpt').textContent = desc;
+            currentEditing.querySelector('.blog-post-date').textContent = `Дата: ${date}`;
+            currentEditing.querySelector('.blog-post-price').textContent = `Ціна: ${price}`;
+
+            const id = currentEditing.getAttribute('data-id');
+            localStorage.setItem(id, JSON.stringify({ title, desc, date, price }));
+
+            document.getElementById("editModal").style.display = "none";
+            loadSavedData(); // Додано виклик функції для оновлення відображення
+        }
+        function filterEvents() {
+            const selectedDate = document.getElementById('event-date').value;
+            const selectedPrice = document.getElementById('event-price').value;
+            const selectedType = document.getElementById('event-type').value;
+    
+            const eventCards = document.querySelectorAll('.blog-post'); // Всі події
+    
+            eventCards.forEach(card => {
+                const eventDate = card.getAttribute('data-date');
+                const eventPrice = card.getAttribute('data-price');
+                const eventType = card.getAttribute('data-type');
+    
+                let show = true;
+    
+                // Фільтрація за датою
+                if (selectedDate && eventDate !== selectedDate) {
+                    show = false;
+                }
+    
+                // Фільтрація за ціною
+                if (selectedPrice && parseInt(eventPrice) > parseInt(selectedPrice)) {
+                    show = false;
+                }
+    
+                // Фільтрація за типом
+                if (selectedType && eventType !== selectedType) {
+                    show = false;
+                }
+    
+                // Показати або сховати картку
+                if (show) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        // Функція для завантаження збережених даних з localStorage
+    function loadSavedData() {
+        document.querySelectorAll('.blog-post').forEach(post => {
+            const id = post.getAttribute('data-id'); // Отримуємо той самий data-id
+            const saved = localStorage.getItem(id);
+            if (saved) {
+                const { title, desc, date, price } = JSON.parse(saved);
+                post.querySelector('.blog-post-title').textContent = title;
+                post.querySelector('.blog-post-excerpt').textContent = desc;
+                post.querySelector('.blog-post-date').textContent = `Дата: ${date}`;
+                post.querySelector('.blog-post-price').textContent = `Ціна: ${price}`;
+            }
+        });
+    }
+    
+        // Завантажити збережені дані при завантаженні сторінки
+        window.onload = () => {
+            loadSavedData(); // Викликаємо функцію для завантаження даних одразу при завантаженні
+            setupLanguageButtons();
+        };
+    function loadSavedData() {
+        document.querySelectorAll('.blog-post').forEach(post => {
+            const id = post.getAttribute('data-id'); // Отримуємо той самий data-id
+            const saved = localStorage.getItem(id);
+            if (saved) {
+                const { title, desc, date, price } = JSON.parse(saved);
+                post.querySelector('.blog-post-title').textContent = title;
+                post.querySelector('.blog-post-excerpt').textContent = desc;
+                post.querySelector('.blog-post-date').textContent = `Дата: ${date}`;
+                post.querySelector('.blog-post-price').textContent = `Ціна: ${price}`;
+            }
+        });
+    }
+    
+        // Завантажити збережені дані при завантаженні сторінки
+        window.onload = () => {
+            loadSavedData(); // Викликаємо функцію для завантаження даних одразу при завантаженні
+            setupLanguageButtons();
+        };
+    // Об'єкт для перекладів
+    const translations = {
+        uk: {
+            "alltypes": "Всі події",
+            "concand": "Концерти та вистави",
+            "vystawka": "Виставка",
+            "fest": "Фестиваль",
+            "master": "Майстер-клас",
+            "home-header": "Головна",
+            "catalog-header": "Каталог",
+            "login-header": "Вхід",
+            "filter-date-label": "Дата:",
+            "filter-price-label": "Ціна:",
+            "filter-type-label": "Тип події:",
+            "filter-submit-button": "Фільтрувати",
+            "event1-title": "Концерт 2025 року",
+            "event1-excerpt": "Присутні на концерті зможуть насолоджуватися найкращими релізами 2025 року.",
+            "event1-date": "Дата: 10 травня 2025",
+            "event1-price": "Ціна: 250 грн",
+            "event2-title": "Театральна вистава 'Коли засинає місто'",
+            "event2-excerpt": "Лірична драма про тих, хто шукає себе серед тихих сплячих вулиць.",
+            "event2-date": "Дата: 15 травня 2025",
+            "event2-price": "Ціна: 300 грн",
+            "event3-title": "Заняття йогою на відкритому повітрі",
+            "event3-excerpt": "Йога серед природи для покращення самопочуття.",
+            "event3-date": "Дата: 16 травня 2025",
+            "event3-price": "Ціна: 400 грн",
+            "login-modal-title": "Вхід",
+            "username-placeholder": "Логін",
+            "password-placeholder": "Пароль",
+            "login-button": "Увійти",
+            "edit-modal-title": "Редагувати подію",
+            "edit-button": "Зберегти",
+            "footer-text": "Поринай у веселощі | Kyiv Event - Dive into Fun",
+            "footer-contacts": "Контакти: +380 12 345 67 89 | email@example.com",
+            "footer-developer": "Розробник: Андрущенко Софія ФІТ 2-11"
+        },
+        en: {
+            "alltypes": "All types",
+            "concand": "Concerts & performances",
+            "vystawka": "Exhibitions",
+            "fest": "Festivals",
+            "master": "Master classes",
+            "home-header": "Home",
+            "catalog-header": "Catalog",
+            "login-header": "Login",
+            "filter-date-label": "Date:",
+            "filter-price-label": "Price:",
+            "filter-type-label": "Event Type:",
+            "filter-submit-button": "Filter",
+            "event1-title": "Concert of 2025",
+            "event1-excerpt": "Attendees will enjoy the best releases of 2025.",
+            "event1-date": "Date: May 10, 2025",
+            "event1-price": "Price: 250 UAH",
+            "event2-title": "Theatrical Play 'When the City Sleeps'",
+            "event2-excerpt": "A lyrical drama about those who seek themselves among the quiet sleeping streets.",
+            "event2-date": "Date: May 15, 2025",
+            "event2-price": "Price: 300 UAH",
+            "event3-title": "Outdoor Yoga Session",
+            "event3-excerpt": "Yoga in nature for better well-being.",
+            "event3-date": "Date: May 16, 2025",
+            "event3-price": "Price: 400 UAH",
+            "login-modal-title": "Login",
+            "username-placeholder": "Username",
+            "password-placeholder": "Password",
+            "login-button": "Login",
+            "edit-modal-title": "Edit Event",
+            "edit-button": "Save",
+            "footer-text": "Dive into Fun | Kyiv Event - Поринай у веселощі",
+            "footer-contacts": "Contacts: +380 12 345 67 89 | email@example.com",
+            "footer-developer": "Developer: Andrushchenko Sofia FIT 2-11",
+        }
+    };
+
+    // Функція для зміни мови
+    function switchLanguage(language) {
+        // Оновлення тексту на сторінці
+        for (const key in translations[language]) {
+            const element = document.getElementById(key);
+            if (element) {
+                element.textContent = translations[language][key];
+            }
+            // Якщо елемент не має ID, але його потрібно змінити, наприклад, у вкладеному контенті
+            const elements = document.querySelectorAll(`[data-translate="${key}"]`);
+            elements.forEach(el => {
+                el.textContent = translations[language][key];
+            });
+        }
+    }
+
+    // Виклик функції при натисканні кнопок
+    function setupLanguageButtons() {
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const lang = e.target.textContent.toLowerCase();
+                switchLanguage(lang);
+            });
+        });
+    }
+
+    window.onload = () => {
+        loadSavedData(); // Викликаємо функцію для завантаження даних одразу при завантаженні
+        setupLanguageButtons();
+    };
+
+    </script>
+</body>
+</html>
+

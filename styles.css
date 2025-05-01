@@ -1,0 +1,353 @@
+/* Загальні стилі для всього сайту */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Стилі для тіла сторінки */
+body {
+    background-color: #7c0f88;
+    color: #ffffff;
+}
+
+/* Стилі для навігації */
+nav {
+background-color: #ffc020;
+color: white;
+padding: 10px 0;
+display: flex;
+justify-content: space-around;
+align-items: center;
+}
+
+nav ul {
+list-style: none;
+padding: 0;
+display: flex;
+}
+
+nav li {
+margin: 0 15px;
+}
+
+nav a {
+color: white;
+text-decoration: none;
+font-weight: bold;
+}
+#logo {
+height: 50px;
+}
+/* Логотип */
+#logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* Список навігації */
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #955405;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #7a4bf2;
+}
+
+/* Кнопки зміни мови */
+nav div {
+    display: flex;
+}
+
+nav button {
+    background-color: #a02cc0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+nav button:hover {
+    background-color: #5e37c2;
+}
+
+/* Головна секція */
+#hero {
+    background: url('images/banner.png') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+#main-title {
+    font-size: 80px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    -webkit-text-stroke: 2px rgba(51, 24, 57, 0.204); /* Для браузерів на основі WebKit (Chrome, Safari) */
+    text-stroke: 2px rgba(163, 22, 182, 0.836);         /* Стандартна властивість */
+    color: white;                   /* Колір самого тексту, щоб контур був видно */
+}
+
+#subheader-title {
+    font-size: 38px;
+    margin-bottom: 30px;
+
+    color: #f0f0f0;
+}
+/* Кнопка для перегляду подій */
+.action-button {
+    background-color: #7a4bf2;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #5e37c2;
+}
+
+/* Футер */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+/* Футер текст */
+#footer-text1 {
+    font-size: 14px;
+}
+/* Фільтри ліворуч */
+#filter-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: white;
+    padding: 20px;
+    border-radius: 16px; /* Більш округлі кути */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    width: 280px;
+    position: fixed;
+    top: 100px;
+    left: 30px;
+    border: 2px solid #FFD700; /* Жовта рамка */
+}
+
+#filter-section label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+#filter-section input,
+#filter-section select {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: 2px solid #FFD700; /* Жовтий контур */
+    font-size: 14px;
+    background-color: white; /* Білий фон */
+    transition: all 0.3s ease;
+}
+
+#filter-section input:focus,
+#filter-section select:focus {
+    outline: none;
+    border-color: #FFC300; /* Трохи яскравіший жовтий при фокусі */
+    box-shadow: 0 0 8px #ffe066;
+}
+
+#filter-section button {
+    background-color: #FFD700; /* Жовта кнопка */
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#filter-section button:hover {
+    background-color: #FFC300;
+}
+
+
+/* Сітка для подій (пости) */
+.event-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.blog-post {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    padding: 20px;
+}
+
+.blog-post:hover {
+    transform: translateY(-5px);
+}
+
+.blog-post img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.blog-post-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.blog-post-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.blog-post-excerpt {
+    font-size: 15px;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.blog-post-date,
+.blog-post-price {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.blog-post-link {
+    font-size: 16px;
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: auto;
+    display: inline-block;
+    transition: color 0.3s;
+}
+
+.blog-post-link:hover {
+    color: #005bb5;
+}
+
+/* Кнопка редагування */
+.edit-btn {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #0066cc;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.blog-post:hover .edit-btn {
+    display: none;
+}
+
+/* Модальні вікна */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+}
+
+.modal input {
+    padding: 12px;
+    margin: 10px 0;
+    width: 90%;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Кнопка плаваюча */
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+}

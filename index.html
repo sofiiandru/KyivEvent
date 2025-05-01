@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Київ Івент</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Об'єкти для перекладу
+        const translations = {
+            uk: {
+                "main-title": "KYIV EVENT",
+                "subheader-title": "ВИБЕРИ СВОЄ ДОЗВІЛЛЯ",
+                "view-events-button": "Переглянути найближчі події",
+                "footer-text": "KYIV EVENT - поринай у веселощі",
+                "footer-text1": "Контакти: +380 12 345 67 89 | email@example.com",
+                "footer-text2": "Розробник: Андрущенко Софія ФІТ 2-11",
+                "home-header": "Головна",
+                "catalog-header": "Каталог",
+                "login-header": "Вхід"
+            },
+            en: {
+                "main-title": "KYIV EVENT",
+                "subheader-title": "CHOOSE YOUR FUN",
+                "view-events-button": "View Upcoming Events",
+                "footer-text": "KYIV EVENT - Dive into Fun",
+                "footer-text1": "Contacts: +380 12 345 67 89 | email@example.com",
+                "footer-text2": "Developer: Sofiya Andrushchenko FIT 2-11",
+                "home-header": "Home",
+                "catalog-header": "Catalog",
+                "login-header": "Login"
+            }
+        };
+
+        // Функція для зміни мови
+        function switchLanguage(language) {
+            Object.keys(translations[language]).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = translations[language][id];
+                }
+            });
+        }
+    </script>
+    
+</head>
+<body>
+
+    <!-- Панель навігації -->
+    <nav>
+        <img src="images/logo.png" alt="Logo" id="logo">
+        <ul>
+            <li><a href="index.html" id="home-header">Головна</a></li>
+            <li><a href="catalog.html" id="catalog-header">Каталог</a></li>
+        </ul>
+        <div>
+            <button onclick="switchLanguage('uk')">UA</button>
+            <button onclick="switchLanguage('en')">EN</button>
+        </div>
+    </nav>
+
+    <!-- Головна секція з фоном -->
+    <section id="hero">
+        <h1 id="main-title">KYIV EVENT</h1>
+        <h2 id="subheader-title">ВИБЕРИ СВОЄ ДОЗВІЛЛЯ</h2>
+        <button class="action-button" id="view-events-button" onclick="window.location.href='catalog.html'">Переглянути найближчі події</button>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <p id="footer-text">KYIV EVENT - поринай у веселощі</p>
+        <p id="footer-text1">Контакти: +380 12 345 67 89 | email@example.com</p>
+        <p id="footer-text2">Розробник: Андрущенко Софія ФІТ 2-11</p>
+    </footer>
+
+</body>
+</html>

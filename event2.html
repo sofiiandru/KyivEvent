@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        nav {
+            background-color: #ffc020;
+            color: white;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin: 0 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #logo {
+            height: 50px;
+        }
+        #logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+
+        /* Кнопки зміни мови */
+        nav div {
+            display: flex;
+        }
+
+        nav button {
+            background-color: #a02cc0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav button:hover {
+            background-color: #5e37c2;
+        }
+        .gallery-section {
+            background-color: #8c119f;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-section h2#gallery-title {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .gallery {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .gallery img.gallery-image {
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-section a.back-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            text-decoration: none;
+            background-color: #f3b239;
+            color: white;
+            border-radius: 10px;
+        }
+
+        main {
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .event-detail h1 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        .event-detail p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        #event-1-organizer {
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #f3b239;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        #event-1-organizer h3 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* Футер текст */
+        #footer-text1 {
+            font-size: 14px;
+        }
+
+        /* Стилі для редагування (приховані за замовчуванням) */
+
+        .login-button-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .login-button {
+            background-color: #ba71b1;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-modal {
+            display: none;
+            /* Приховано за замовчуванням */
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .login-modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            /* Зменшено відступ від верху */
+            padding: 40px;
+            border: 1px solid #888;
+            width: 300px;
+            /* Можна налаштувати ширину */
+            border-radius: 30px;
+        }
+
+        .login-modal-content h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .login-modal-content input[type=text],
+        .login-modal-content input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        .login-modal-content button {
+            background-color: #7e218a;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .login-modal-content button:hover {
+            opacity: 0.8;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Стилі для режиму редагування */
+        .edit-mode .editable {
+            position: relative;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .edit-mode .editable::before {
+            content: "Edit";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            font-size: 0.8em;
+            padding: 2px 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            display: none; /* Default hide */
+        }
+
+        .edit-mode .editable:hover::before {
+            display: block; /* Show when hovering */
+        }
+
+        /* Стилі для модального вікна редагування */
+        .edit-modal {
+            display: none;
+            position: fixed;
+            z-index: 1002;
+            /* Вище, ніж кнопка входу */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .edit-modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            /* Зменшено відступ від верху */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            /* Збільшена ширина для зручності редагування */
+            max-width: 600px;
+            border-radius: 8px;
+            position: relative;
+            /* Для позиціонування кнопки закриття */
+        }
+
+        .edit-modal-content h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .edit-modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            min-height: 150px;
+        }
+
+        .edit-modal-content button {
+            background-color: #5cb85c;
+            /* Зелений колір для кнопки "Зберегти" */
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            /* Щоб кнопки займали менше місця */
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .edit-modal-content button#cancelEditButton {
+            background-color: #d9534f;
+            /* Червоний колір для кнопки "Скасувати" */
+        }
+
+        .edit-modal-content button:hover {
+            opacity: 0.8;
+        }
+
+        .edit-modal-content .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .edit-modal-content .close-button:hover,
+        .edit-modal-content .close-button:focus {
+            color: black;
+            text-decoration: none;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <nav>
+        <img src="images/logo.png" alt="Logo" id="logo">
+        <ul>
+            <li><a href="index.html" id="home-header">Головна</a></li>
+            <li><a href="catalog.html" id="catalog-header">Каталог</a></li>
+
+        </ul>
+        <div>
+            <button class="language-button" onclick="switchLanguage('uk')">UA</button>
+            <button class="language-button" onclick="switchLanguage('en')">EN</button>
+        </div>
+    </nav>
+    <section class="gallery-section">
+        <h2 id="gallery-title">Галерея події</h2>
+        <div class="gallery">
+            <img src="images/pexels-kosyginl-2888802 (1).jpg" alt="Фото концерту" class="gallery-image">
+            <img src="images/pexels-anya-juarez-tenorio-227888521-31767456.jpg" alt="Фото сцени" class="gallery-image">
+            <img src="images/pexels-wendywei-1714361.jpg" alt="Фото глядачів" class="gallery-image">
+        </div>
+        <a href="catalog.html" class="back-button" id="back-to-catalog">← Назад до каталогу</a>
+    </section>
+
+    <main>
+        <section class="event-detail" id="event-1-detail">
+            <h1 id="event-2-title">Театральна вистава "Коли засинає місто"</h1>
+            <p id="event-2-description">Вам пропонується побувати у світі таємниць великого міста, стежачи за бурхливим життям головних героїв.</p>
+            <p id="event-2-date">Дата: 15 травня 2025</p>
+            <p id="event-2-price">Ціна: 300 грн</p>
+            <p id="event-2-type">Тип події: Театральна вистава</p>
+
+            <div id="event-2-organizer">
+                <h3 id="event-2-organizer-title">Контакти організатора</h3>
+                <p id="event-2-organizer-name">Олена Пантера</p>
+                <p id="event-2-organizer-phone">Телефон: +380 12 345 67 89</p>
+                <p id="event-2-organizer-email">Email: olenacat@example.com</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p id="footer-text">KYIV EVENT - поринай у веселощі | Kyiv Event - Dive into Fun</p>
+        <p id="footer-text1">Контакти: +380 12 345 67 89 | email@example.com</p>
+        <p id="footer-text2">Розробник: Андрущенко Софія ФІТ 2-11</p>
+    </footer>
+    <script>
+        let currentEditingElement = null;
+        let originalText = {}; // Об'єкт для зберігання початкового тексту
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadTranslations('uk');
+            attachEventListeners();
+            checkLoginStatus();
+            createEditModal();
+        });
+
+        const translations = {
+            uk: {
+                'home-header': 'Головна',
+                'catalog-header': 'Каталог',
+                'login-header': 'Вхід',
+                'gallery-title': 'Галерея події',
+                'back-to-catalog': '← Назад до каталогу',
+                'event-2-title': 'Театральна вистава "Коли засинає місто"',
+                'event-2-description': 'Вам пропонується побувати у світі таємниць великого міста, стежачи за бурхливим життям головних героїв.',
+                'event-2-date': 'Дата: 15 травня 2025',
+                'event-2-price': 'Ціна: 300 грн',
+                'event-2-type': 'Тип події: Театральна вистава',
+                'event-2-organizer-title': 'Контакти організатора',
+                'event-2-organizer-name': 'Олена Пантера',
+                'event-2-organizer-phone': 'Телефон: +380 12 345 67 89',
+                'event-2-organizer-email': 'Email: olenacat@example.com',
+                'footer-text': 'KYIV EVENT - поринай у веселощі | Kyiv Event - Dive into Fun',
+                'footer-text1': 'Контакти: +380 12 345 67 89 | email@example.com',
+                'footer-text2': 'Розробник: Андрущенко Софія ФІТ 2-11',
+                'login-modal-title': 'Вхід',
+                'username': 'Логін',
+                'password': 'Пароль',
+                'login-button': 'Увійти',
+                'logout-button': 'Вийти',
+                'save-button': 'Зберегти',
+                'cancel-button': 'Скасувати'
+            },
+            en: {
+                'home-header': 'Home',
+                'catalog-header': 'Catalog',
+                'login-header': 'Login',
+                'gallery-title': 'Event Gallery',
+                'back-to-catalog': '← Back to Catalog',
+                'event-2-title': 'Theatrical Performance "When the City Sleeps"',
+                'event-2-description': 'You are invited to visit the world of mysteries of a big city, following the vibrant life of the main characters.',
+                'event-2-date': 'Date: May 15, 2025',
+                'event-2-price': 'Price: 300 UAH',
+                'event-2-type': 'Event Type: Theatrical Performance',
+                'event-2-organizer-title': 'Organizer Contacts',
+                'event-2-organizer-name': 'Olena Pantera',
+                'event-2-organizer-phone': 'Phone: +380 12 345 67 89',
+                'event-2-organizer-email': 'Email: olenacat@example.com',
+                'footer-text': 'KYIV EVENT - dive into fun | Kyiv Event - поринай у веселощі',
+                'footer-text1': 'Contacts: +380 12 345 67 89 | email@example.com',
+                'footer-text2': 'Developer: Andrushchenko Sofia FIT 2-11',
+                'login-modal-title': 'Login',
+                'username': 'Username',
+                'password': 'Password',
+                'login-button': 'Login',
+                'logout-button': 'Logout',
+                'save-button': 'Save',
+                'cancel-button': 'Cancel'
+            }
+        };
+
+        function loadTranslations(lang) {
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(element => {
+                const key = element.id;
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                    originalText[key] = translations[lang][key]; // Оновлюємо originalText початковим текстом мови
+                } else {
+                    // Якщо переклад відсутній, залишаємо поточний текст (можливо, відредагований або початковий)
+                    if (!originalText[key]) {
+                        originalText[key] = element.textContent; // Зберігаємо поточний текст як початковий, якщо ще не збережено
+                    }
+                }
+
+                if (element.tagName === 'INPUT') {
+                    const placeholderKey = element.getAttribute('placeholder-key');
+                    if (translations[lang] && translations[lang][placeholderKey]) {
+                        element.placeholder = translations[lang][placeholderKey];
+                    }
+                }
+            });
+            const placeholderInputs = document.querySelectorAll('[placeholder-key]');
+            placeholderInputs.forEach(input => {
+                const key = input.getAttribute('placeholder-key');
+                if (translations[lang] && translations[lang][key]) {
+                    input.placeholder = translations[lang][key];
+                }
+            });
+
+            // Після завантаження перекладів, застосовуємо збережений текст з localStorage
+            applySavedText();
+        }
+
+        function applySavedText() {
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(element => {
+                const key = element.id;
+                const savedText = localStorage.getItem(key);
+                if (savedText) {
+                    element.textContent = savedText;
+                    originalText[key] = savedText; // Оновлюємо originalText збереженим текстом
+                }
+            });
+        }
+
+    function switchLanguage(language) {
+        // Оновлення тексту на сторінці
+        for (const key in translations[language]) {
+            const element = document.getElementById(key);
+            if (element) {
+                element.textContent = translations[language][key];
+            }
+            // Якщо елемент не має ID, але його потрібно змінити, наприклад, у вкладеному контенті
+            const elements = document.querySelectorAll(`[data-translate="${key}"]`);
+            elements.forEach(el => {
+                el.textContent = translations[language][key];
+            });
+        }
+    }
+
+    // Виклик функції при натисканні кнопок
+    function setupLanguageButtons() {
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const lang = e.target.textContent.toLowerCase();
+                switchLanguage(lang);
+            });
+        });
+    }
+
+    window.onload = () => {
+        loadSavedData(); // Викликаємо функцію для завантаження даних одразу при завантаженні
+        setupLanguageButtons();
+    };
+
+        function attachEventListeners() {
+            loginModal = document.querySelector('.login-modal');
+            const loginButton = document.querySelector('.login-button');
+            const closeButton = loginModal.querySelector('.close-button');
+            const loginSubmitButton = loginModal.querySelector('#login-submit');
+            const navLoginItem = document.querySelector('#login-header');
+
+            loginButton.addEventListener('click', () => {
+                loginModal.style.display = 'block';
+            });
+
+            closeButton.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+            });
+
+            loginSubmitButton.addEventListener('click', () => {
+                const usernameInput = document.querySelector('#username-input').value;
+                const passwordInput = document.querySelector('#password-input').value;
+                if (usernameInput === 'admin' && passwordInput === '1234') {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    checkLoginStatus();
+                    loginModal.style.display = 'none';
+                } else {
+                    alert('Невірні дані для входу.');
+                }
+            });
+
+            if (navLoginItem) {
+                navLoginItem.addEventListener('click', showLoginModal);
+            }
+
+            window.addEventListener('click', (event) => {
+                const editModalElement = document.querySelector('.edit-modal');
+                if (editModalElement && event.target === editModalElement) {
+                    closeEditModal();
+                }
+                if (event.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+        }
+
+        if (!document.querySelector('.login-modal')) {
+            const loginModalDiv = document.createElement('div');
+            loginModalDiv.className = 'login-modal';
+            loginModalDiv.innerHTML = `
+                <div class="login-modal-content">
+                    <span class="close-button">&times;</span>
+                    <h2 id="login-modal-title">${translations['uk']['login-modal-title']}</h2>
+                    <input type="text" id="username-input" placeholder-key="username" placeholder="Логін">
+                    <input type="password" id="password-input" placeholder-key="password" placeholder="Пароль">
+                    <button id="login-submit">${translations['uk']['login-button']}</button>
+                </div>
+            `;
+            document.body.appendChild(loginModalDiv);
+        }
+
+        if (!document.querySelector('.login-button-container')) {
+            const loginButtonContainer = document.createElement('div');
+            loginButtonContainer.className = 'login-button-container';
+            const loginButton = document.createElement('button');
+            loginButton.className = 'login-button';
+            loginButton.textContent = '🔒';
+            loginButtonContainer.appendChild(loginButton);
+            document.body.appendChild(loginButtonContainer);
+        }
+
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const navLoginItem = document.querySelector('#login-header');
+            if (isLoggedIn === 'true') {
+                enableEditMode();
+                if (navLoginItem) {
+                    navLoginItem.textContent = translations['uk']['logout-button'];
+                    navLoginItem.removeEventListener('click', showLoginModal);
+                    navLoginItem.addEventListener('click', logout);
+                }
+            } else {
+                disableEditMode();
+                if (navLoginItem) {
+                    navLoginItem.textContent = translations['uk']['login-header'];
+                    navLoginItem.removeEventListener('click', logout);
+                    navLoginItem.addEventListener('click', showLoginModal);
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            checkLoginStatus();
+        }
+
+        function showLoginModal() {
+            const loginModal = document.querySelector('.login-modal');
+            loginModal.style.display = 'block';
+        }
+
+        function enableEditMode() {
+            const editableElements = document.querySelectorAll('h1[id], p[id]');
+            editableElements.forEach(element => {
+                originalText[element.id] = element.textContent; // Зберігаємо початковий текст
+                const editButton = document.createElement('span');
+                editButton.className = 'edit-button';
+                editButton.textContent = '✏️';
+                editButton.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    openEditModal(element); // Передаємо сам елемент
+                });
+                element.style.position = 'relative';
+                element.appendChild(editButton);
+            });
+        }
+
+        function disableEditMode() {
+            const editableElements = document.querySelectorAll('h1[id], p[id]');
+            editableElements.forEach(element => {
+                const editButton = element.querySelector('.edit-button');
+                if (editButton) {
+                    editButton.removeEventListener('click', openEditModal);
+                    element.removeChild(editButton);
+                    element.style.position = '';
+                }
+                delete originalText[element.id]; // Видаляємо збережений текст
+            });
+        }
+
+        function createEditModal() {
+            if (!document.querySelector('.edit-modal')) {
+                const editModal = document.createElement('div');
+                editModal.className = 'edit-modal';
+                editModal.innerHTML = `
+                    <div class="edit-modal-content">
+                        <span class="close-button">&times;</span>
+                        <h2>${translations['uk']['save-button']}</h2>
+                        <textarea id="editTextarea" style="width: 100%; box-sizing: border-box; margin-bottom: 10px;"></textarea>
+                        <button id="saveEditButton">${translations['uk']['save-button']}</button>
+                        <button id="cancelEditButton">${translations['uk']['cancel-button']}</button>
+                    </div>
+                `;
+                document.body.appendChild(editModal);
+
+                const saveEditButton = editModal.querySelector('#saveEditButton');
+                const cancelEditButton = editModal.querySelector('#cancelEditButton');
+                const closeEditModalButton = editModal.querySelector('.close-button');
+
+                saveEditButton.addEventListener('click', saveEditedText);
+                cancelEditButton.addEventListener('click', closeEditModal);
+                closeEditModalButton.addEventListener('click', closeEditModal);
+            }
+        }
+
+        function openEditModal(element) { // Отримуємо елемент як аргумент
+            currentEditingElement = element;
+            const editTextarea = document.querySelector('#editTextarea');
+            const editModalElement = document.querySelector('.edit-modal');
+            if (currentEditingElement && editTextarea && editModalElement) {
+                editTextarea.value = originalText[currentEditingElement.id]; // Використовуємо збережений текст
+                editModalElement.style.display = 'block';
+            }
+        }
+
+        function closeEditModal() {
+            const editModalElement = document.querySelector('.edit-modal');
+            if (editModalElement) {
+                editModalElement.style.display = 'none';
+            }
+            currentEditingElement = null;
+        }
+
+        function saveEditedText() {
+            if (currentEditingElement) {
+                const editTextarea = document.querySelector('#editTextarea');
+                const newText = editTextarea.value;
+                currentEditingElement.textContent = newText;
+                localStorage.setItem(currentEditingElement.id, newText);
+                originalText[currentEditingElement.id] = newText; // Оновлюємо збережений текст
+                closeEditModal();
+            }
+        }
+
+        window.onload = () => {
+            loadTranslations(document.documentElement.lang);
+        };
+    </script>
+</body>
+
+</html>
+
