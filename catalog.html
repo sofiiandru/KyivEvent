@@ -354,7 +354,7 @@
                         <p class="blog-post-date" id="event1-date">Дата: 10 травня 2025</p>
                         <p class="blog-post-price" id="event1-price">Ціна: 250 грн</p>
                         <button class="edit-btn" onclick="openEdit(this)">✏️ Редагувати</button>
-                        <a href="event1.html" class="blog-post-link">Деталі події</a>
+                        <a href="event1.html" class="blog-post-link" id="Det" >Деталі події</a>
                     </div>
                 </div>
 
@@ -366,7 +366,7 @@
                         <p class="blog-post-date" id="event2-date">Дата: 15 травня 2025</p>
                         <p class="blog-post-price" id="event2-price">Ціна: 300 грн</p>
                         <button class="edit-btn" onclick="openEdit(this)">✏️ Редагувати</button>
-                        <a href="event2.html" class="blog-post-link">Деталі події</a>
+                        <a href="event2.html" class="blog-post-link" id="Det" >Деталі події</a>
                     </div>
                 </div>
 
@@ -378,7 +378,7 @@
                         <p class="blog-post-date" id="event3-date">Дата: 16 травня 2025</p>
                         <p class="blog-post-price" id="event3-price">Ціна: 400 грн</p>
                         <button class="edit-btn" onclick="openEdit(this)">✏️ Редагувати</button>
-                        <a href="event3.html" class="blog-post-link">Деталі події</a>
+                        <a href="event3.html" class="blog-post-link" id="Det" >Деталі події</a>
                     </div>
                 </div>
             </section>
@@ -542,6 +542,7 @@
     // Об'єкт для перекладів
     const translations = {
         uk: {
+            "Det" : "Деталі події"
             "alltypes": "Всі події",
             "concand": "Концерти та вистави",
             "vystawka": "Виставка",
@@ -577,6 +578,7 @@
             "footer-developer": "Розробник: Андрущенко Софія ФІТ 2-11"
         },
         en: {
+            "Det" : "Event details"
             "alltypes": "All types",
             "concand": "Concerts & performances",
             "vystawka": "Exhibitions",
