@@ -362,10 +362,10 @@
         <ul>
             <li><a href="index.html" id="home-header">Головна</a></li>
             <li><a href="catalog.html" id="catalog-header">Каталог</a></li>
-
+            <li><a href="organizer-submission.html" id="organizer-header">Для організаторів</a></li>
         </ul>
         <div>
-            <button class="language-button" onclick="switchLanguage('uk')">UA</button>
+            <button class="language-button" onclick="switchLanguage('uk')">UK</button>
             <button class="language-button" onclick="switchLanguage('en')">EN</button>
         </div>
     </nav>
@@ -416,7 +416,7 @@
             uk: {
                 'home-header': 'Головна',
                 'catalog-header': 'Каталог',
-                'login-header': 'Вхід',
+                'organizer-header': 'Для організаторів',
                 'gallery-title': 'Галерея події',
                 'back-to-catalog': '← Назад до каталогу',
                 'event-2-title': 'Театральна вистава "Коли засинає місто"',
@@ -442,7 +442,7 @@
             en: {
                 'home-header': 'Home',
                 'catalog-header': 'Catalog',
-                'login-header': 'Login',
+                'organizer-header': 'For Organizers',
                 'gallery-title': 'Event Gallery',
                 'back-to-catalog': '← Back to Catalog',
                 'event-2-title': 'Theatrical Performance "When the City Sleeps"',
@@ -725,41 +725,6 @@
         window.onload = () => {
             loadTranslations(document.documentElement.lang);
         };
-        function loadTranslations(lang) {
-            const elements = document.querySelectorAll('[id]');
-            elements.forEach(element => {
-                const key = element.id;
-                if (translations[lang] && translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-                if (element.tagName === 'INPUT') {
-                    const placeholderKey = element.getAttribute('placeholder-key');
-                    if (translations[lang] && translations[lang][placeholderKey]) {
-                        element.placeholder = translations[lang][placeholderKey];
-                    }
-                }
-            });
-            const placeholderInputs = document.querySelectorAll('[placeholder-key]');
-            placeholderInputs.forEach(input => {
-                const key = input.getAttribute('placeholder-key');
-                if (translations[lang] && translations[lang][key]) {
-                    input.placeholder = translations[lang][key];
-                }
-            });
-            localStorage.setItem('currentLanguage', lang); // Зберігаємо обрану мову
-        }
-
-        function switchLanguage(lang) {
-            loadTranslations(lang);
-            document.documentElement.lang = lang;
-        }
-
-        window.onload = () => {
-            const storedLanguage = localStorage.getItem('currentLanguage');
-            const initialLanguage = storedLanguage || document.documentElement.lang || 'uk'; // Пріоритет: збережена мова, потім мова браузера, потім укр.
-            loadTranslations(initialLanguage);
-            document.documentElement.lang = initialLanguage;
-        };
     </script>
 </body>
 
