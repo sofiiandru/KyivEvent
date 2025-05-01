@@ -277,20 +277,21 @@
         }
 
         /* Адаптивність для мобільних пристроїв */
+/* Адаптивність для мобільних пристроїв */
         @media (max-width: 768px) {
             #filter-form {
                 flex-direction: column;
                 align-items: stretch;
             }
 
+            #filter-form label {
+                text-align: left;
+            }
+
             #filter-form input,
             #filter-form select {
                 width: 100%;
                 margin-bottom: 10px;
-            }
-
-            #filter-form label {
-                text-align: left;
             }
 
             #filter-submit-button {
@@ -302,9 +303,90 @@
             }
 
             #event-cards {
-                width: 100%;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Трохи менша мінімальна ширина для кращого розміщення на мобілках */
+                gap: 15px; /* Зменшено відступ між картками */
+            }
+
+            .blog-post {
+                border-radius: 20px; /* Менші заокруглення для мобілок */
+            }
+
+            .blog-post img {
+                height: 150px; /* Менша висота зображень на мобілках */
+            }
+
+            .blog-post-content {
+                padding: 10px; /* Менші внутрішні відступи */
+            }
+
+            .blog-post-title {
+                font-size: 1.2em; /* Менший розмір шрифту заголовків */
+            }
+
+            nav {
+                flex-direction: column; /* Навігація в стовпчик */
+                align-items: flex-start;
+                padding: 10px;
+            }
+
+            nav ul {
+                flex-direction: column; /* Список навігації в стовпчик */
+                padding-left: 20px;
+                margin-top: 10px;
+            }
+
+            nav li {
+                margin: 5px 0;
+            }
+
+            nav a {
+                font-size: 1em;
+            }
+
+            nav > div { /* Контейнер кнопок мови */
+                margin-top: 10px;
+            }
+
+            nav button {
+                margin: 0 5px;
+                padding: 5px 10px;
+                font-size: 0.9em;
+            }
+
+            #logo {
+                height: 40px; /* Менший логотип */
+            }
+
+            .floating-btn {
+                bottom: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .modal-content {
+                margin: 20% auto; /* Більший відступ зверху на мобілках */
+                width: 85%;
+            }
+
+            .modal input {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+
+            .modal button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+                margin-top: 8px;
+            }
+
+            footer p {
+                font-size: 0.8em; /* Менший шрифт у футері */
+                margin: 5px 0;
             }
         }
+
 
     </style>
 </head>
@@ -354,7 +436,7 @@
                         <p class="blog-post-date" id="event1-date">Дата: 10 травня 2025</p>
                         <p class="blog-post-price" id="event1-price">Ціна: 250 грн</p>
                         <button class="edit-btn" onclick="openEdit(this)">✏️ Редагувати</button>
-                        <a href="event1.html" class="blog-post-link" id="det" >Деталі події</a>
+                        <a href="event1.html" class="blog-post-link">Деталі події</a>
                     </div>
                 </div>
 
@@ -366,7 +448,7 @@
                         <p class="blog-post-date" id="event2-date">Дата: 15 травня 2025</p>
                         <p class="blog-post-price" id="event2-price">Ціна: 300 грн</p>
                         <button class="edit-btn" onclick="openEdit(this)">✏️ Редагувати</button>
-                        <a href="event2.html" class="blog-post-link" id="det" >Деталі події</a>
+                        <a href="event2.html" class="blog-post-link">Деталі події</a>
                     </div>
                 </div>
 
@@ -378,7 +460,7 @@
                         <p class="blog-post-date" id="event3-date">Дата: 16 травня 2025</p>
                         <p class="blog-post-price" id="event3-price">Ціна: 400 грн</p>
                         <button class="edit-btn" onclick="openEdit(this)">✏️ Редагувати</button>
-                        <a href="event3.html" class="blog-post-link" id="det" >Деталі події</a>
+                        <a href="event3.html" class="blog-post-link">Деталі події</a>
                     </div>
                 </div>
             </section>
@@ -542,7 +624,6 @@
     // Об'єкт для перекладів
     const translations = {
         uk: {
-            "det" : "Деталі події"
             "alltypes": "Всі події",
             "concand": "Концерти та вистави",
             "vystawka": "Виставка",
@@ -578,7 +659,6 @@
             "footer-developer": "Розробник: Андрущенко Софія ФІТ 2-11"
         },
         en: {
-            "det" : "Event details"
             "alltypes": "All types",
             "concand": "Concerts & performances",
             "vystawka": "Exhibitions",
@@ -645,41 +725,6 @@
         loadSavedData(); // Викликаємо функцію для завантаження даних одразу при завантаженні
         setupLanguageButtons();
     };
-    function loadTranslations(lang) {
-            const elements = document.querySelectorAll('[id]');
-            elements.forEach(element => {
-                const key = element.id;
-                if (translations[lang] && translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-                if (element.tagName === 'INPUT') {
-                    const placeholderKey = element.getAttribute('placeholder-key');
-                    if (translations[lang] && translations[lang][placeholderKey]) {
-                        element.placeholder = translations[lang][placeholderKey];
-                    }
-                }
-            });
-            const placeholderInputs = document.querySelectorAll('[placeholder-key]');
-            placeholderInputs.forEach(input => {
-                const key = input.getAttribute('placeholder-key');
-                if (translations[lang] && translations[lang][key]) {
-                    input.placeholder = translations[lang][key];
-                }
-            });
-            localStorage.setItem('currentLanguage', lang); // Зберігаємо обрану мову
-        }
-
-        function switchLanguage(lang) {
-            loadTranslations(lang);
-            document.documentElement.lang = lang;
-        }
-
-        window.onload = () => {
-            const storedLanguage = localStorage.getItem('currentLanguage');
-            const initialLanguage = storedLanguage || document.documentElement.lang || 'uk'; // Пріоритет: збережена мова, потім мова браузера, потім укр.
-            loadTranslations(initialLanguage);
-            document.documentElement.lang = initialLanguage;
-        };
 
     </script>
 </body>
