@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подати заявку на подію</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Додаткові стилі для форми */
+        .submission-form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            color: #333; /* Змінюємо колір тексту на темно-сірий */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            color: #333; /* Застосовуємо колір тексту і до інпутів */
+        }
+
+        button[type="submit"] {
+            background-color: #d900ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #a02cc0;
+        }
+
+        .info-text {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <img src="images/logo.png" alt="Logo" id="logo">
+        <ul>
+            <li><a href="index.html" id="home-header">Головна</a></li>
+            <li><a href="catalog.html" id="catalog-header">Каталог</a></li>
+            <li><a href="organizer-submission.html" id="organizer-header">Для організаторів</a></li>
+        </ul>
+        <div>
+            <button onclick="switchLanguage('uk')">UK</button>
+            <button onclick="switchLanguage('en')">EN</button>
+        </div>
+    </nav>
+
+    <div class="submission-form">
+        <h2 id="submission-title">Подати заявку на подію</h2>
+        <p id="publication-price" class="info-text">Ціна за публікацію події: безкоштовно (на даний момент).</p>
+        <form id="eventSubmissionForm">
+            <div class="form-group">
+                <label for="eventName" id="event-name-label">Назва події:</label>
+                <input type="text" id="eventName" name="eventName" required>
+            </div>
+            <div class="form-group">
+                <label for="eventDescription" id="event-description-label">Опис події:</label>
+                <textarea id="eventDescription" name="eventDescription" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="eventDate" id="event-date-label">Дата події:</label>
+                <input type="date" id="eventDate" name="eventDate" required>
+            </div>
+            <div class="form-group">
+                <label for="eventPrice" id="event-price-label">Ціна (в грн):</label>
+                <input type="number" id="eventPrice" name="eventPrice" min="0">
+            </div>
+            <div class="form-group">
+                <label for="eventType" id="event-type-label">Тип події:</label>
+                <select id="eventType" name="eventType">
+                    <option value="концерт" id="concand">Концерт</option>
+                    <option value="вистава" id="vystawka">Вистава</option>
+                    <option value="фестиваль" id="fest">Фестиваль</option>
+                    <option value="майстер-клас" id="master">Майстер-клас</option>
+                    <option value="інше" id="other">Інше</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="organizerName" id="organizer-name-label">Ім'я організатора:</label>
+                <input type="text" id="organizerName" name="organizerName" required>
+            </div>
+            <div class="form-group">
+                <label for="organizerEmail" id="organizer-email-label">Email організатора:</label>
+                <input type="email" id="organizerEmail" name="organizerEmail" required>
+            </div>
+            <button type="submit" id="submit-event-button">Подати заявку</button>
+        </form>
+        <p id="review-time-info" class="info-text">Вашу заявку буде розглянуто протягом 1 робочого дня.</p>
+    </div>
+
+    <footer>
+        <p id="footer-text">Поринай у веселощі | Kyiv Event - Dive into Fun</p>
+        <p id="footer-contacts">Контакти: +380 12 345 67 89 | email@example.com</p>
+        <p id="footer-developer">Розробник: Андрущенко Софія ФІТ 2-11</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTranslations(localStorage.getItem('currentLanguage') || document.documentElement.lang);
+            setupLanguageButtons();
+            const submissionForm = document.getElementById('eventSubmissionForm');
+            submissionForm.addEventListener('submit', handleFormSubmit);
+        });
+
+        const translations = {
+            uk: {
+                "home-header": "Головна",
+                "catalog-header": "Каталог",
+                "organizer-header": "Для організаторів",
+                "submission-title": "Подати заявку на подію",
+                "event-name-label": "Назва події:",
+                "event-description-label": "Опис події:",
+                "event-date-label": "Дата події:",
+                "event-price-label": "Ціна (в грн):",
+                "event-type-label": "Тип події:",
+                "concand": "Концерт",
+                "vystawka": "Вистава",
+                "fest": "Фестиваль",
+                "master": "Майстер-клас",
+                "other": "Інше",
+                "organizer-name-label": "Ім'я організатора:",
+                "organizer-email-label": "Email організатора:",
+                "submit-event-button": "Подати заявку",
+                "submission-success": "Вашу заявку успішно відправлено!",
+                "submission-error": "Виникла помилка при відправці заявки.",
+                "publication-price": "Ціна за публікацію події: безкоштовно (на даний момент).",
+                "review-time-info": "Вашу заявку буде розглянуто протягом 1 робочого дня.",
+                "footer-text": "Поринай у веселощі | Kyiv Event - Dive into Fun",
+                "footer-contacts": "Контакти: +380 12 345 67 89 | email@example.com",
+                "footer-developer": "Розробник: Андрущенко Софія ФІТ 2-11"
+            },
+            en: {
+                "home-header": "Home",
+                "catalog-header": "Catalog",
+                "organizer-header": "For Organizers",
+                "submission-title": "Submit an Event Application",
+                "event-name-label": "Event Name:",
+                "event-description-label": "Event Description:",
+                "event-date-label": "Event Date:",
+                "event-price-label": "Price (in UAH):",
+                "event-type-label": "Event Type:",
+                "concand": "Concert",
+                "vystawka": "Exhibition",
+                "fest": "Festival",
+                "master": "Master Class",
+                "other": "Other",
+                "organizer-name-label": "Organizer Name:",
+                "organizer-email-label": "Organizer Email:",
+                "submit-event-button": "Submit Application",
+                "submission-success": "Your application has been submitted successfully!",
+                "submission-error": "An error occurred while submitting the application.",
+                "publication-price": "Event publication price: free (at the moment).",
+                "review-time-info": "Your application will be reviewed within 1 business day.",
+                "footer-text": "Dive into Fun | Kyiv Event - Поринай у веселощі",
+                "footer-contacts": "Contacts: +380 12 345 67 89 | email@example.com",
+                "footer-developer": "Developer: Andrushchenko Sofia FIT 2-11"
+            }
+        };
+
+        function loadTranslations(language) {
+            for (const key in translations[language]) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = translations[language][key];
+                }
+                const placeholderElement = document.querySelector(`[placeholder-id="${key}"]`);
+                if (placeholderElement) {
+                    placeholderElement.placeholder = translations[language][key];
+                }
+            }
+            document.documentElement.lang = language;
+            localStorage.setItem('currentLanguage', language);
+        }
+
+        function setupLanguageButtons() {
+            document.querySelectorAll('nav button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const lang = e.target.textContent.toLowerCase();
+                    loadTranslations(lang);
+                });
+            });
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const formData = {
+                eventName: document.getElementById('eventName').value,
+                eventDescription: document.getElementById('eventDescription').value,
+                eventDate: document.getElementById('eventDate').value,
+                eventPrice: document.getElementById('eventPrice').value,
+                eventType: document.getElementById('eventType').value,
+                organizerName: document.getElementById('organizerName').value,
+                organizerEmail: document.getElementById('organizerEmail').value
+            };
+
+            const subject = encodeURIComponent('Заявка на подію від організатора');
+            const body = encodeURIComponent(
+                `Назва події: ${formData.eventName}\n` +
+                `Опис події: ${formData.eventDescription}\n` +
+                `Дата події: ${formData.eventDate}\n` +
+                `Ціна: ${formData.eventPrice}\n` +
+                `Тип події: ${formData.eventType}\n` +
+                `Ім'я організатора: ${formData.organizerName}\n` +
+                `Email організатора: ${formData.organizerEmail}`
+            );
+
+            window.location.href = `mailto:s.andrushchenko_fit_11_23_b_d@knute.edu.ua?subject=${subject}&body=${body}`;
+
+            const currentLanguage = localStorage.getItem('currentLanguage') || document.documentElement.lang;
+            alert(translations[currentLanguage]['submission-success']);
+
+            submissionForm.reset();
+        }
+    </script>
+</body>
+</html>
