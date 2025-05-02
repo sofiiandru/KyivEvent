@@ -91,7 +91,7 @@ nav button:hover {
 }
 
 /* Головна секція */
-#hero {
+.hero {
     background-image: url('images/banner.png');
     background-size: cover;
     background-position: center;
