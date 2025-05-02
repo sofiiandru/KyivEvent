@@ -108,22 +108,14 @@ nav button:hover {
     padding: 40px;
     border-radius: 10px;
 }
-#main-title {
+h1 {
     font-size: 3em;
     margin-bottom: 20px;
     color: #FFD700;
     text-shadow: 2px 2px 4px #000;
 }
 
-#subheader-title {
-    font-size: 3em;
-    margin-bottom: 20px;
-    color: #FFD700;
-    text-shadow: 2px 2px 4px #000;
-
-}
-/* Кнопка для перегляду подій */
-.action-button {
+.cta-button {
     background-color: #FFD700;
     color: #6A0DAD;
     padding: 15px 25px;
@@ -135,8 +127,8 @@ nav button:hover {
     display: inline-block;
 }
 
-.action-button:hover {
-    background-color: #5e37c2;
+.cta-button:hover {
+    background-color: #FFC300;
 }
 
 /* Футер */
